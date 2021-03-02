@@ -1,0 +1,56 @@
+---
+- name: create tomcat user
+  user:
+    name: tomcat
+    state: present
+
+- name: Download foo.conf
+  get_url:
+    url: https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.63/bin/apache-tomcat-8.5.63.tar.gz
+    dest: /opt/apache-tomcat-8.5.63.tar.gz
+
+- name: Unarchive a file that is already on the remote machine
+  unarchive:
+    src: /opt/apache-tomcat-8.5.63.tar.gz
+    dest: /opt
+    remote_src: yes
+
+- name: changing ownership
+  file:
+    path:  /opt/apache-tomcat-8.5.63
+    state: directory
+    recurse: yes
+    owner: tomcat
+    group: tomcat
+
+- name: copy manager context.xml
+  template:
+    src: manager_context.xml.j2
+    dest: /opt/apache-tomcat-8.5.63/webapps/manager/META-INF/context.xml
+    owner: tomcat
+    group: tomcat
+  notify: restart tomcat
+
+- name: copy tomcat user file
+  template:
+    src: tomcat-users.xml.j2
+    dest: /opt/apache-tomcat-8.5.63/conf/tomcat-users.xml
+    owner: tomcat
+    group: tomcat
+  notify: restart tomcat
+
+- name: copy tomcat service file
+  template:
+    src: tomcat.service
+    dest: /etc/systemd/system/tomcat.service
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart tomcat
+
+- name: start and enable tomcat service
+  service:
+    name: tomcat
+    state: started
+    enabled: yes
+

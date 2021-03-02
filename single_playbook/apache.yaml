@@ -1,0 +1,27 @@
+---
+- name: Apache playbook
+  hosts: all
+  become: yes
+  become_method: sudo
+  #remote_connection: ssh
+  vars:
+    name: 'anudeep'
+    package: 'httpd'
+    user: 'root'
+  tasks:
+    - name: install the latest version of Apache
+      yum:
+        name: "{{ package }}"
+        state: present
+    - name: copy index.html file
+      template:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0644'
+    - name: start and enable apache service
+      service:
+        name: "{{ package }}"
+        state: started
+        enabled: yes

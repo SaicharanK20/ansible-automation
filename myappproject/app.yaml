@@ -1,0 +1,9 @@
+---
+- name: New App project
+  hosts: app
+  become: yes
+  become_method: sudo
+  roles:
+    - jdk
+    - tomcat
+
