@@ -1,3 +1,7 @@
 tomcatusername: tomcat
 tomcatpassword: devops123
-
+jdkpkg: ['java-1.8.0-openjdk','java-1.8.0-openjdk-devel']
+appuser: tomcat
+rootuser: root
+tomcat_dir: apache-tomcat-8.5.63
+tomcat_download_url: "https://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.63/bin/{{ apache-tomcat-8.5.63 }}.tar.gz"

@@ -1,5 +1,5 @@
 ---
 - name: install JDK 1.8
   yum:
-    name: ['java-1.8.0-openjdk','java-1.8.0-openjdk-devel']
+    name: "{{ jdkpkg }}"
     state: present
