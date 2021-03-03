@@ -26,7 +26,7 @@
 - name: copy manager context.xml
   template:
     src: manager_context.xml.j2
-    dest:" /opt/{{ tomcat_dir }}"/webapps/manager/META-INF/context.xml
+    dest: "/opt/{{ tomcat_dir }}/webapps/manager/META-INF/context.xml"
     owner: "{{ appuser }}"
     group: "{{ appuser }}"
   notify: restart tomcat
